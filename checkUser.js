@@ -1,7 +1,7 @@
 const User = require("./Database"); // Assuming user schema/model is defined in userModel.js
 
 const checkExistingUser = async (req, res) => {
-  const { username, email } = req.body;
+  const { username, email } = req.query;
 
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
