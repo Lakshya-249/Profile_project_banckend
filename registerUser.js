@@ -1,4 +1,5 @@
 const User = require("./Database.js"); // Assuming user schema/model is defined in Database.js
+const { cloudinary } = require("./utils/cloudinary.js");
 
 const registerUser = async (req, res) => {
   const { name, username, email, password, location, interests, image } =
@@ -18,6 +19,11 @@ const registerUser = async (req, res) => {
       .status(400)
       .json({ message: "All required fields must be provided" });
   }
+  const result = await cloudinary.uploader.upload(image, {
+    upload_preset: "dev_setup",
+  });
+
+  // console.log(result);
 
   try {
     const newUser = new User({
@@ -27,7 +33,7 @@ const registerUser = async (req, res) => {
       password,
       location,
       interests,
-      image,
+      image: result.url,
     });
 
     await newUser.save();
