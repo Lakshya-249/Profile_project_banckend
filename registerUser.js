@@ -39,8 +39,8 @@ const registerUser = async (req, res) => {
 
     await newUser.save();
     res.status(201).json(newUser);
-    resend.emails.send({
-      from: "onboarding@resend.dev",
+    await resend.emails.send({
+      from: "ayushdnfd1679@gmail.com",
       to: email,
       subject: "Hello World",
       html: "<p>Congrats!!! <strong>Thank you for Joining Dribble</strong>!</p>",
