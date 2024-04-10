@@ -1,5 +1,6 @@
 const User = require("./Database.js"); // Assuming user schema/model is defined in Database.js
 const { cloudinary } = require("./utils/cloudinary.js");
+const resend = require("./utils/resendEmail.js");
 
 const registerUser = async (req, res) => {
   const { name, username, email, password, location, interests, image } =
@@ -38,6 +39,12 @@ const registerUser = async (req, res) => {
 
     await newUser.save();
     res.status(201).json(newUser);
+    resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "Hello World",
+      html: "<p>Congrats!!! <strong>Thank you for Joining Dribble</strong>!</p>",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
